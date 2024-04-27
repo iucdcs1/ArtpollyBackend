@@ -27,7 +27,7 @@ func Signup(c *gin.Context) {
 
 	hash, err := bcrypt.GenerateFromPassword([]byte(body.Password), 10)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to hash password",
 		})
 		return
@@ -38,7 +38,7 @@ func Signup(c *gin.Context) {
 	result := initializers.DB.Create(&user)
 
 	if result.Error != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusInternalServerError, gin.H{
 			"error": "Failed to create user",
 		})
 		return
@@ -59,7 +59,7 @@ func Login(c *gin.Context) {
 	initializers.DB.First(&user, "email = ?", body.Email)
 
 	if user.ID == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{
+		c.JSON(http.StatusTeapot, gin.H{
 			"error": "Invalid Email or Password",
 		})
 

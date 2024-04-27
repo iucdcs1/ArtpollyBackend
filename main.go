@@ -16,22 +16,27 @@ func init() {
 
 func main() {
 	r := gin.Default()
+
+	r.ForwardedByClientIP = true
+	if r.SetTrustedProxies([]string{"127.0.0.1"}) != nil {
+		panic("SetTrustedProxies failed")
+	}
+
 	r.GET("/books", controllers.GetBooks)
 	r.GET("/books/:id", controllers.BookById)
 	r.POST("/books", controllers.CreateBook)
 	r.PATCH("/checkout", controllers.CheckoutBook)
 	r.PATCH("/return", controllers.ReturnBook)
 
-	err := r.Run("localhost:8080")
-	if err != nil {
-		return
-	}
-
 	r.POST("/signup", controllers.Signup)
 	r.POST("/login", controllers.Login)
 	r.GET("/validate", middleware.RequireAuth, controllers.Validate)
 
-	err = r.Run()
+	r.GET("/classes", controllers.GetAll)
+	r.POST("/classes", controllers.CreateClass)
+	r.POST("/class_categories", controllers.CreateClassCategory)
+
+	err := r.Run()
 	if err != nil {
 		return
 	}
