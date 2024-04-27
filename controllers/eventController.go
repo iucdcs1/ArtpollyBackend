@@ -8,9 +8,9 @@ import (
 )
 
 type event struct {
-	ID          uint          `json:"id"`
-	Title       string        `json:"title"`
-	Description string        `json:"description"`
+	ID          uint   `json:"id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
 }
 
 func GetEvent(ctx *gin.Context) {
@@ -55,7 +55,7 @@ func EditEvent(ctx *gin.Context) {
 	}
 
 	newEvent2 := models.Event{Title: newEvent.Title, Description: newEvent.Description}
-	newEvent2.ID = newEvent2.ID
+	newEvent2.ID = newEvent.ID
 
 	result := initializers.DB.Save(&newEvent2)
 
@@ -74,7 +74,7 @@ func DeleteEvent(ctx *gin.Context) {
 		return
 	}
 
-	eventToRemove := models.Event{}
+	entityToRemove := models.Event{}
 	entityToRemove.ID = eventToRemove.ID
 
 	result := initializers.DB.Unscoped().Delete(&entityToRemove)
@@ -86,5 +86,3 @@ func DeleteEvent(ctx *gin.Context) {
 
 	ctx.IndentedJSON(http.StatusOK, entityToRemove)
 }
-
-

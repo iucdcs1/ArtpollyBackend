@@ -44,6 +44,7 @@ func main() {
 	r.PATCH("/item_category_edit", controllers.EditItemCategory)
 	r.DELETE("/delete_item", controllers.DeleteItem)
 	r.DELETE("/delete_item_category", controllers.DeleteItemCategory)
+
 	err := r.Run()
 	if err != nil {
 		return
