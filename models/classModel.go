@@ -7,5 +7,5 @@ type Class struct {
 	Title       string `gorm:"unique"`
 	Description string
 	Price       int
-	CategoryID  uint
+	CategoryID  uint `gorm:"default:null"`
 }

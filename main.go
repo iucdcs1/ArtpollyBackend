@@ -32,10 +32,14 @@ func main() {
 	r.POST("/login", controllers.Login)
 	r.GET("/validate", middleware.RequireAuth, controllers.Validate)
 
-	r.GET("/classes", controllers.GetAll)
+	r.GET("/classes", controllers.GetCategorizedClasses)
+	r.GET("/unassigned_classes", controllers.GetUnassignedClasses)
 	r.POST("/classes", controllers.CreateClass)
 	r.POST("/class_categories", controllers.CreateClassCategory)
-
+	r.PATCH("/class_edit", controllers.EditClass)
+	r.PATCH("/class_category_edit", controllers.EditClassCategory)
+	r.DELETE("/delete_class", controllers.DeleteClass)
+	r.DELETE("/delete_class_category", controllers.DeleteClassCategory)
 	err := r.Run()
 	if err != nil {
 		return
