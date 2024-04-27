@@ -151,7 +151,7 @@ func DeleteClass(ctx *gin.Context) {
 }
 
 func DeleteClassCategory(ctx *gin.Context) {
-	var categoryToRemove class
+	var categoryToRemove classCategory
 
 	if err := ctx.BindJSON(&categoryToRemove); err != nil {
 		return
