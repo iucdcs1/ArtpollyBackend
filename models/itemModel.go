@@ -7,6 +7,5 @@ type Item struct {
 	Title       string `gorm:"unique"`
 	Description string
 	Price       int
-	ItemID      uint
-	Category    ItemCategory `gorm:"foreignKey:ItemID"`
+	CategoryID  uint `gorm:"default:null"`
 }
