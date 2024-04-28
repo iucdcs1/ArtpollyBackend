@@ -11,12 +11,14 @@ type itemCategory struct {
 	ID          uint   `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	ImageURL    string `json:"image_url"`
 }
 
 type item struct {
 	ID          uint         `json:"id"`
 	Title       string       `json:"title"`
 	Description string       `json:"description"`
+	ImageURL    string       `json:"image_url"`
 	Price       int          `json:"price"`
 	CategoryID  uint         `json:"categoryId"`
 	Category    itemCategory `json:"category"`
@@ -55,7 +57,7 @@ func CreateItem(ctx *gin.Context) {
 		return
 	}
 
-	newItem2 := models.Item{Title: newItem.Title, Description: newItem.Description, Price: newItem.Price, CategoryID: newItem.CategoryID}
+	newItem2 := models.Item{Title: newItem.Title, Description: newItem.Description, ImageURL: newItem.ImageURL, Price: newItem.Price, CategoryID: newItem.CategoryID}
 	result := initializers.DB.Create(&newItem2)
 
 	if result.Error != nil {
@@ -75,7 +77,7 @@ func CreateItemCategory(ctx *gin.Context) {
 		return
 	}
 
-	newItemCategory2 := models.ItemCategory{Title: newItemCategory.Title, Description: newItemCategory.Description}
+	newItemCategory2 := models.ItemCategory{Title: newItemCategory.Title, Description: newItemCategory.Description, ImageURL: newItemCategory.ImageURL}
 	result := initializers.DB.Create(&newItemCategory2)
 
 	if result.Error != nil {
@@ -95,7 +97,7 @@ func EditItem(ctx *gin.Context) {
 		return
 	}
 
-	newItem2 := models.Item{Title: newItem.Title, Description: newItem.Description, Price: newItem.Price, CategoryID: newItem.CategoryID}
+	newItem2 := models.Item{Title: newItem.Title, Description: newItem.Description, ImageURL: newItem.ImageURL, Price: newItem.Price, CategoryID: newItem.CategoryID}
 	newItem2.ID = newItem.ID
 
 	result := initializers.DB.Save(&newItem2)
@@ -115,7 +117,7 @@ func EditItemCategory(ctx *gin.Context) {
 		return
 	}
 
-	newCategory2 := models.ItemCategory{Title: newCategory.Title, Description: newCategory.Description}
+	newCategory2 := models.ItemCategory{Title: newCategory.Title, Description: newCategory.Description, ImageURL: newCategory.ImageURL}
 	newCategory2.ID = newCategory.ID
 
 	result := initializers.DB.Save(&newCategory2)

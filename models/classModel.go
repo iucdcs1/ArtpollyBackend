@@ -7,5 +7,6 @@ type Class struct {
 	Title       string `gorm:"unique"`
 	Description string
 	Price       int
+	ImageURL    string
 	CategoryID  uint `gorm:"default:null"`
 }

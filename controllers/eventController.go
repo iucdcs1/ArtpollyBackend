@@ -5,12 +5,16 @@ import (
 	"artpollybackend/models"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"time"
 )
 
 type event struct {
 	ID          uint   `json:"id"`
 	Title       string `json:"title"`
 	Description string `json:"description"`
+	ImageURL    string `json:"image_url"`
+	StartDate   string `json:"start_date"`
+	EndDate     string `json:"end_date"`
 }
 
 func GetEvent(ctx *gin.Context) {
@@ -34,7 +38,24 @@ func CreateEvent(ctx *gin.Context) {
 		return
 	}
 
-	newEvent2 := models.Event{Title: newEvent.Title, Description: newEvent.Description}
+	layout := "01.01.2000 12:00"
+	startDate, err := time.Parse(layout, newEvent.StartDate)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to parse event time",
+		})
+		return
+	}
+
+	endDate, err := time.Parse(layout, newEvent.EndDate)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to parse event time",
+		})
+		return
+	}
+
+	newEvent2 := models.Event{Title: newEvent.Title, Description: newEvent.Description, ImageURL: newEvent.ImageURL, StartDate: startDate, EndDate: endDate}
 	result := initializers.DB.Create(&newEvent2)
 
 	if result.Error != nil {
@@ -54,7 +75,24 @@ func EditEvent(ctx *gin.Context) {
 		return
 	}
 
-	newEvent2 := models.Event{Title: newEvent.Title, Description: newEvent.Description}
+	layout := "01.01.2000 12:00"
+	startDate, err := time.Parse(layout, newEvent.StartDate)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to parse event time",
+		})
+		return
+	}
+
+	endDate, err := time.Parse(layout, newEvent.EndDate)
+	if err != nil {
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{
+			"error": "Failed to parse event time",
+		})
+		return
+	}
+
+	newEvent2 := models.Event{Title: newEvent.Title, Description: newEvent.Description, ImageURL: newEvent.ImageURL, StartDate: startDate, EndDate: endDate}
 	newEvent2.ID = newEvent.ID
 
 	result := initializers.DB.Save(&newEvent2)

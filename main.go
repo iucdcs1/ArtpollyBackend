@@ -3,6 +3,7 @@ package main
 import (
 	"artpollybackend/initializers"
 	"artpollybackend/routes/classes"
+	"artpollybackend/routes/events"
 	"artpollybackend/routes/items"
 	"artpollybackend/routes/users"
 	"github.com/gin-gonic/gin"
@@ -28,6 +29,8 @@ func main() {
 	classes.SetupRouter(r)
 	// Items
 	items.SetupRouter(r)
+	// Events
+	events.SetupRouter(r)
 
 	err := r.Run()
 	if err != nil {
