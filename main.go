@@ -6,6 +6,7 @@ import (
 	"artpollybackend/routes/events"
 	"artpollybackend/routes/items"
 	"artpollybackend/routes/users"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,6 +32,8 @@ func main() {
 	items.SetupRouter(r)
 	// Events
 	events.SetupRouter(r)
+
+	r.Use(cors.Default())
 
 	err := r.Run()
 	if err != nil {
