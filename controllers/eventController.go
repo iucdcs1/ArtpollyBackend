@@ -3,9 +3,10 @@ package controllers
 import (
 	"artpollybackend/initializers"
 	"artpollybackend/models"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type event struct {
