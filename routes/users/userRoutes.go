@@ -17,5 +17,6 @@ func SetupRouter(route *gin.Engine) {
 	protected.Use(middleware.RequireAuth)
 	{
 		protected.GET("validate", controllers.Validate)
+		protected.GET("user", controllers.GetInfo)
 	}
 }

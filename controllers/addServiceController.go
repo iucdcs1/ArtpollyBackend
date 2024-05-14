@@ -41,6 +41,7 @@ func CreateService(ctx *gin.Context) {
 		Price:       newService.Price,
 		ImageURL:    newService.ImageURL,
 	}
+
 	result := initializers.DB.Create(&newService2)
 
 	if result.Error != nil {

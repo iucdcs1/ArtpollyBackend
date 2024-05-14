@@ -7,7 +7,7 @@ import (
 
 type Event struct {
 	gorm.Model
-	Title       string
+	Title       string `gorm:"unique"`
 	ImageURL    string
 	StartDate   time.Time
 	EndDate     time.Time

@@ -36,7 +36,7 @@ func CreateEvent(ctx *gin.Context) {
 	var newEvent event
 
 	if err := ctx.BindJSON(&newEvent); err != nil {
-		return
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 
 	layout := "2006-01-02T15:04:05.000Z"
@@ -56,7 +56,13 @@ func CreateEvent(ctx *gin.Context) {
 		return
 	}
 
-	newEvent2 := models.Event{Title: newEvent.Title, Description: newEvent.Description, ImageURL: newEvent.ImageURL, StartDate: startDate, EndDate: endDate}
+	newEvent2 := models.Event{
+		Title:       newEvent.Title,
+		Description: newEvent.Description,
+		ImageURL:    newEvent.ImageURL,
+		StartDate:   startDate,
+		EndDate:     endDate}
+
 	result := initializers.DB.Create(&newEvent2)
 
 	if result.Error != nil {
@@ -93,7 +99,13 @@ func EditEvent(ctx *gin.Context) {
 		return
 	}
 
-	newEvent2 := models.Event{Title: newEvent.Title, Description: newEvent.Description, ImageURL: newEvent.ImageURL, StartDate: startDate, EndDate: endDate}
+	newEvent2 := models.Event{
+		Title:       newEvent.Title,
+		Description: newEvent.Description,
+		ImageURL:    newEvent.ImageURL,
+		StartDate:   startDate,
+		EndDate:     endDate}
+
 	newEvent2.ID = newEvent.ID
 
 	result := initializers.DB.Save(&newEvent2)

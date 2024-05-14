@@ -59,7 +59,14 @@ func CreateClass(ctx *gin.Context) {
 		return
 	}
 
-	newClass2 := models.Class{Title: newClass.Title, Description: newClass.Description, Price: newClass.Price, ImageURL: newClass.ImageURL, CategoryID: newClass.CategoryID}
+	newClass2 := models.Class{
+		Title:       newClass.Title,
+		Description: newClass.Description,
+		Price:       newClass.Price,
+		ImageURL:    newClass.ImageURL,
+		CategoryID:  newClass.CategoryID,
+	}
+
 	result := initializers.DB.Create(&newClass2)
 
 	if result.Error != nil {
@@ -79,7 +86,12 @@ func CreateClassCategory(ctx *gin.Context) {
 		return
 	}
 
-	newClassCategory2 := models.ClassCategory{Title: newClassCategory.Title, Description: newClassCategory.Description, ImageURL: newClassCategory.ImageURL}
+	newClassCategory2 := models.ClassCategory{
+		Title:       newClassCategory.Title,
+		Description: newClassCategory.Description,
+		ImageURL:    newClassCategory.ImageURL,
+	}
+
 	result := initializers.DB.Create(&newClassCategory2)
 
 	if result.Error != nil {
@@ -99,7 +111,14 @@ func EditClass(ctx *gin.Context) {
 		return
 	}
 
-	newClass2 := models.Class{Title: newClass.Title, Description: newClass.Description, ImageURL: newClass.ImageURL, Price: newClass.Price, CategoryID: newClass.CategoryID}
+	newClass2 := models.Class{
+		Title:       newClass.Title,
+		Description: newClass.Description,
+		ImageURL:    newClass.ImageURL,
+		Price:       newClass.Price,
+		CategoryID:  newClass.CategoryID,
+	}
+
 	newClass2.ID = newClass.ID
 
 	result := initializers.DB.Save(&newClass2)
@@ -119,7 +138,12 @@ func EditClassCategory(ctx *gin.Context) {
 		return
 	}
 
-	newCategory2 := models.ClassCategory{Title: newCategory.Title, Description: newCategory.Description, ImageURL: newCategory.ImageURL}
+	newCategory2 := models.ClassCategory{
+		Title:       newCategory.Title,
+		Description: newCategory.Description,
+		ImageURL:    newCategory.ImageURL,
+	}
+
 	newCategory2.ID = newCategory.ID
 
 	result := initializers.DB.Save(&newCategory2)
