@@ -2,6 +2,7 @@ package main
 
 import (
 	"artpollybackend/initializers"
+	"artpollybackend/routes/additional_services"
 	"artpollybackend/routes/classes"
 	"artpollybackend/routes/events"
 	"artpollybackend/routes/items"
@@ -32,6 +33,8 @@ func main() {
 	items.SetupRouter(r)
 	// Events
 	events.SetupRouter(r)
+	// Services
+	additional_services.SetupRouter(r)
 
 	r.Use(cors.Default())
 

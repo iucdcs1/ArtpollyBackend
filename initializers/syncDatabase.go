@@ -9,10 +9,6 @@ func SyncDatabase() {
 		panic("Database models.User migration failed")
 	}
 
-	if DB.AutoMigrate(&models.Book{}) != nil {
-		panic("Database models.Book migration failed")
-	}
-
 	if DB.AutoMigrate(&models.ClassCategory{}) != nil {
 		panic("Database models.ClassCategory migration failed")
 	}

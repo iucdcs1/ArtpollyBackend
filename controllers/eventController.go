@@ -20,7 +20,7 @@ type event struct {
 func GetEvent(ctx *gin.Context) {
 	var events []models.Event
 
-	err := initializers.DB.Model(&models.Event{}).Preload("Events").Find(&events).Error
+	err := initializers.DB.Model(&models.Event{}).Find(&events).Error
 
 	if err != nil {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -38,7 +38,7 @@ func CreateEvent(ctx *gin.Context) {
 		return
 	}
 
-	layout := "01.01.2000 12:00"
+	layout := "2006-01-02T15:04:05.000Z"
 	startDate, err := time.Parse(layout, newEvent.StartDate)
 	if err != nil {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{
@@ -75,7 +75,7 @@ func EditEvent(ctx *gin.Context) {
 		return
 	}
 
-	layout := "01.01.2000 12:00"
+	layout := "2006-01-02T15:04:05.000Z"
 	startDate, err := time.Parse(layout, newEvent.StartDate)
 	if err != nil {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{
