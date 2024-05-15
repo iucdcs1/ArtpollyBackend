@@ -61,7 +61,8 @@ func CreateEvent(ctx *gin.Context) {
 		Description: newEvent.Description,
 		ImageURL:    newEvent.ImageURL,
 		StartDate:   startDate,
-		EndDate:     endDate}
+		EndDate:     endDate,
+	}
 
 	result := initializers.DB.Create(&newEvent2)
 

@@ -28,4 +28,12 @@ func SyncDatabase() {
 	if DB.AutoMigrate(&models.Event{}) != nil {
 		panic("Database models.Event migration failed")
 	}
+
+	if DB.AutoMigrate(&models.AdditionalService{}) != nil {
+		panic("Database models.AdditionalService migration failed")
+	}
+
+	if DB.AutoMigrate(&models.Contacts{}) != nil {
+		panic("Database models.Contacts migration failed")
+	}
 }

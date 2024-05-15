@@ -4,6 +4,7 @@ import (
 	"artpollybackend/initializers"
 	"artpollybackend/routes/additional_services"
 	"artpollybackend/routes/classes"
+	"artpollybackend/routes/contacts"
 	"artpollybackend/routes/events"
 	"artpollybackend/routes/forms"
 	"artpollybackend/routes/items"
@@ -46,6 +47,8 @@ func main() {
 	additional_services.SetupRouter(r)
 	// Forms
 	forms.SetupRouter(r)
+	// Contacts
+	contacts.SetupRouter(r)
 
 	err := r.Run()
 	if err != nil {
