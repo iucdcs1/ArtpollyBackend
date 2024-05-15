@@ -31,9 +31,9 @@ func main() {
 	}))
 
 	r.ForwardedByClientIP = true
-	if r.SetTrustedProxies([]string{"127.0.0.1"}) != nil {
-		panic("SetTrustedProxies failed")
-	}
+	//if r.SetTrustedProxies([]string{"127.0.0.1"}) != nil {
+	//	panic("SetTrustedProxies failed")
+	//}
 
 	// Auth
 	users.SetupRouter(r)
