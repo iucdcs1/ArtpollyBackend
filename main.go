@@ -8,6 +8,7 @@ import (
 	"artpollybackend/routes/events"
 	"artpollybackend/routes/forms"
 	"artpollybackend/routes/items"
+	"artpollybackend/routes/schedule"
 	"artpollybackend/routes/users"
 
 	"github.com/gin-contrib/cors"
@@ -15,6 +16,7 @@ import (
 )
 
 func init() {
+	// initializers.LoadEnvVariables() -- Disabled while using Heroku
 	initializers.ConnectToDb()
 	initializers.SyncDatabase()
 }
@@ -48,6 +50,8 @@ func main() {
 	forms.SetupRouter(r)
 	// Contacts
 	contacts.SetupRouter(r)
+	// Schedule
+	schedule.SetupRouter(r)
 
 	err := r.Run()
 	if err != nil {

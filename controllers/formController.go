@@ -43,6 +43,7 @@ func SendForm(ctx *gin.Context) {
 		"application/json",
 		bytes.NewBuffer(body),
 	)
+
 	if err != nil {
 		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"Telegram POST error": err.Error()})
 		return
