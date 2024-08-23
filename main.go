@@ -63,9 +63,6 @@ func main() {
 		return
 	}
 
-	err := r.Run(":8081")
-	if err != nil {
-		return
-	}
+	log.Info("Backend server is running!")
 
 }
