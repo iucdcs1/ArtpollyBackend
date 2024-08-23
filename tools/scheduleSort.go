@@ -1,9 +1,11 @@
-package main
+package tools
 
 import (
-	"encoding/json"
+	"artpollybackend/models"
 	"fmt"
 	"sort"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -25,6 +27,29 @@ type classInfo struct {
 	Duration int  `json:"duration"`
 }
 
+func IntSliceToString(arr []int, separator string) string {
+	strArr := make([]string, len(arr))
+	for i, num := range arr {
+		strArr[i] = strconv.Itoa(num)
+	}
+	return strings.Join(strArr, separator)
+}
+
+func StringToIntSlice(s string, separator string) ([]int, error) {
+	strArr := strings.Split(s, separator)
+	intArr := make([]int, len(strArr))
+
+	for i, str := range strArr {
+		num, err := strconv.Atoi(str)
+		if err != nil {
+			return nil, err
+		}
+		intArr[i] = num
+	}
+
+	return intArr, nil
+}
+
 func parseHourToTime(hour int) (time.Time, error) {
 	if hour < 1 || hour > 24 {
 		return time.Time{}, fmt.Errorf("hour must be between 1 and 24")
@@ -34,7 +59,7 @@ func parseHourToTime(hour int) (time.Time, error) {
 	return baseDate.Add(time.Duration(hour-1) * time.Hour), nil
 }
 
-func ScheduleSort(scheduleArr []schedule) (map[string][]classInfo, error) {
+func ScheduleSort(scheduleArrModels []models.Schedule) (map[string][]classInfo, error) {
 	daySchedule := map[string][]classInfo{
 		"SUN": {},
 		"MON": {},
@@ -60,27 +85,66 @@ func ScheduleSort(scheduleArr []schedule) (map[string][]classInfo, error) {
 		return nil
 	}
 
-	for _, sch := range scheduleArr {
-		if err := processDay("SUN", sch.SUN, sch); err != nil {
-			return nil, err
+	for _, schModel := range scheduleArrModels {
+		sunHours, err := StringToIntSlice(schModel.SUN, ",")
+		if err != nil {
+			return nil, fmt.Errorf("error parsing SUN hours: %w", err)
 		}
-		if err := processDay("MON", sch.MON, sch); err != nil {
-			return nil, err
+
+		monHours, err := StringToIntSlice(schModel.MON, ",")
+		if err != nil {
+			return nil, fmt.Errorf("error parsing MON hours: %w", err)
 		}
-		if err := processDay("TUE", sch.TUE, sch); err != nil {
-			return nil, err
+
+		tueHours, err := StringToIntSlice(schModel.TUE, ",")
+		if err != nil {
+			return nil, fmt.Errorf("error parsing TUE hours: %w", err)
 		}
-		if err := processDay("WED", sch.WED, sch); err != nil {
-			return nil, err
+
+		wedHours, err := StringToIntSlice(schModel.WED, ",")
+		if err != nil {
+			return nil, fmt.Errorf("error parsing WED hours: %w", err)
 		}
-		if err := processDay("THU", sch.THU, sch); err != nil {
-			return nil, err
+
+		thuHours, err := StringToIntSlice(schModel.THU, ",")
+		if err != nil {
+			return nil, fmt.Errorf("error parsing THU hours: %w", err)
 		}
-		if err := processDay("FRI", sch.FRI, sch); err != nil {
-			return nil, err
+
+		friHours, err := StringToIntSlice(schModel.FRI, ",")
+		if err != nil {
+			return nil, fmt.Errorf("error parsing FRI hours: %w", err)
 		}
-		if err := processDay("SAT", sch.SAT, sch); err != nil {
-			return nil, err
+
+		satHours, err := StringToIntSlice(schModel.SAT, ",")
+		if err != nil {
+			return nil, fmt.Errorf("error parsing SAT hours: %w", err)
+		}
+
+		sch := schedule{
+			ClassID:  schModel.Class.ID,
+			SUN:      sunHours,
+			MON:      monHours,
+			TUE:      tueHours,
+			WED:      wedHours,
+			THU:      thuHours,
+			FRI:      friHours,
+			SAT:      satHours,
+			Duration: schModel.Duration,
+		}
+
+		for day, hours := range map[string][]int{
+			"SUN": sch.SUN,
+			"MON": sch.MON,
+			"TUE": sch.TUE,
+			"WED": sch.WED,
+			"THU": sch.THU,
+			"FRI": sch.FRI,
+			"SAT": sch.SAT,
+		} {
+			if err := processDay(day, hours, sch); err != nil {
+				return nil, err
+			}
 		}
 	}
 
@@ -94,35 +158,4 @@ func ScheduleSort(scheduleArr []schedule) (map[string][]classInfo, error) {
 	}
 
 	return daySchedule, nil
-}
-
-func main() {
-	scheduleArr := []schedule{
-		{
-			ClassID:  1,
-			SUN:      []int{3, 5},
-			MON:      []int{2, 8},
-			Duration: 60,
-		},
-		{
-			ClassID:  2,
-			SUN:      []int{2, 6},
-			MON:      []int{1, 7},
-			Duration: 45,
-		},
-	}
-
-	sortedSchedules, err := ScheduleSort(scheduleArr)
-	if err != nil {
-		fmt.Println("Error:", err)
-		return
-	}
-
-	jsonOutput, err := json.MarshalIndent(sortedSchedules, "", "  ")
-	if err != nil {
-		fmt.Println("Error converting to JSON:", err)
-		return
-	}
-
-	fmt.Println(string(jsonOutput))
 }

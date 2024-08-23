@@ -37,7 +37,7 @@ func SyncDatabase() {
 		panic("Database models.Contacts migration failed")
 	}
 
-	if DB.AutoMigrate(&models.ScheduleObject{}) != nil {
+	if DB.AutoMigrate(&models.Schedule{}) != nil {
 		panic("Database models.Schedule migration failed")
 	}
 }

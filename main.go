@@ -9,9 +9,12 @@ import (
 	"artpollybackend/routes/items"
 	"artpollybackend/routes/schedules"
 	"artpollybackend/routes/users"
+	"errors"
+	"net/http"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	log "github.com/sirupsen/logrus"
 )
 
 func init() {
@@ -50,7 +53,17 @@ func main() {
 	// Schedules
 	schedules.SetupRouter(r)
 
-	err := r.Run()
+	httpServer := &http.Server{
+		Addr:    ":8081",
+		Handler: r,
+	}
+
+	if err := httpServer.ListenAndServe(); err != nil && !errors.Is(err, http.ErrServerClosed) {
+		log.Fatal("Failed to start Service:", err)
+		return
+	}
+
+	err := r.Run(":8081")
 	if err != nil {
 		return
 	}

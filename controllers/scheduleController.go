@@ -3,7 +3,9 @@ package controllers
 import (
 	"artpollybackend/initializers"
 	"artpollybackend/models"
+	"artpollybackend/tools"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 )
@@ -30,8 +32,17 @@ func GetSchedule(ctx *gin.Context) {
 		return
 	}
 
-	ctx.IndentedJSON(http.StatusOK, schedules)
-
+	if sortedSchedules, err := tools.ScheduleSort(schedules); err != nil {
+		logrus.Error("Sorting failed, ", err)
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"error": "Sort failed",
+		})
+		return
+	} else {
+		logrus.Info("Sorted completed successfully")
+		ctx.IndentedJSON(http.StatusOK, sortedSchedules)
+		return
+	}
 }
 
 func AddToSchedule(ctx *gin.Context) {
@@ -51,13 +62,13 @@ func AddToSchedule(ctx *gin.Context) {
 
 	newScheduleModel := models.Schedule{
 		Class:    classToLink,
-		SUN:      newSchedule.SUN,
-		MON:      newSchedule.MON,
-		TUE:      newSchedule.TUE,
-		WED:      newSchedule.WED,
-		THU:      newSchedule.THU,
-		FRI:      newSchedule.FRI,
-		SAT:      newSchedule.SAT,
+		SUN:      tools.IntSliceToString(newSchedule.SUN, " "),
+		MON:      tools.IntSliceToString(newSchedule.MON, " "),
+		TUE:      tools.IntSliceToString(newSchedule.TUE, " "),
+		WED:      tools.IntSliceToString(newSchedule.WED, " "),
+		THU:      tools.IntSliceToString(newSchedule.THU, " "),
+		FRI:      tools.IntSliceToString(newSchedule.FRI, " "),
+		SAT:      tools.IntSliceToString(newSchedule.SAT, " "),
 		Duration: newSchedule.Duration,
 	}
 
@@ -96,13 +107,13 @@ func UpdateSchedule(ctx *gin.Context) {
 
 	updatedScheduleModel := models.Schedule{
 		Class:    classToLink,
-		SUN:      updatedSchedule.SUN,
-		MON:      updatedSchedule.MON,
-		TUE:      updatedSchedule.TUE,
-		WED:      updatedSchedule.WED,
-		THU:      updatedSchedule.THU,
-		FRI:      updatedSchedule.FRI,
-		SAT:      updatedSchedule.SAT,
+		SUN:      tools.IntSliceToString(updatedSchedule.SUN, " "),
+		MON:      tools.IntSliceToString(updatedSchedule.MON, " "),
+		TUE:      tools.IntSliceToString(updatedSchedule.TUE, " "),
+		WED:      tools.IntSliceToString(updatedSchedule.WED, " "),
+		THU:      tools.IntSliceToString(updatedSchedule.THU, " "),
+		FRI:      tools.IntSliceToString(updatedSchedule.FRI, " "),
+		SAT:      tools.IntSliceToString(updatedSchedule.SAT, " "),
 		Duration: updatedSchedule.Duration,
 	}
 
