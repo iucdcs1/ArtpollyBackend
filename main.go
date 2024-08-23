@@ -7,6 +7,7 @@ import (
 	"artpollybackend/routes/events"
 	"artpollybackend/routes/forms"
 	"artpollybackend/routes/items"
+	"artpollybackend/routes/schedules"
 	"artpollybackend/routes/users"
 
 	"github.com/gin-contrib/cors"
@@ -46,6 +47,8 @@ func main() {
 	additional_services.SetupRouter(r)
 	// Forms
 	forms.SetupRouter(r)
+	// Schedules
+	schedules.SetupRouter(r)
 
 	err := r.Run()
 	if err != nil {
