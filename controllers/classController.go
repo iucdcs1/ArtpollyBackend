@@ -124,7 +124,7 @@ func EditClass(ctx *gin.Context) {
 	result := initializers.DB.Save(&newClass2)
 
 	if result.Error != nil {
-		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"Error updating class": result.Error.Error()})
 		return
 	}
 
@@ -169,7 +169,7 @@ func DeleteClass(ctx *gin.Context) {
 	result := initializers.DB.Unscoped().Delete(&entityToRemove)
 
 	if result.Error != nil {
-		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"error": result.Error.Error()})
+		ctx.IndentedJSON(http.StatusBadRequest, gin.H{"Error deleting class": result.Error.Error()})
 		return
 	}
 
