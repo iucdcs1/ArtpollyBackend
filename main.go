@@ -4,6 +4,7 @@ import (
 	"artpollybackend/initializers"
 	"artpollybackend/routes/additional_services"
 	"artpollybackend/routes/classes"
+	"artpollybackend/routes/contacts"
 	"artpollybackend/routes/events"
 	"artpollybackend/routes/forms"
 	"artpollybackend/routes/items"
@@ -52,6 +53,8 @@ func main() {
 	forms.SetupRouter(r)
 	// Schedules
 	schedules.SetupRouter(r)
+	// Contacts
+	contacts.SetupRouter(r)
 
 	httpServer := &http.Server{
 		Addr:    ":8081",
